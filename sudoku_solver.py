@@ -36,6 +36,25 @@ def can_have(arr, r, c):
     return can_hold
 
 
+# candidate checking method: looks through all non-solved
+# cells, and checks to see if there is only one possible
+# value that can be put there
+# -1 is the "code" for an unsolved cell
+def candidate_check(puzzle):
+    while True:
+        switched = False
+        for r in range(0,9):
+            for c in range(0,9):
+                if puzzle[r,c] == -1:
+                    possible = can_have(puzzle, r, c)
+                    if len(possible) == 1:
+                        print 'puzzle[%d,%d] is %d' % (r,c,possible[0])
+                        puzzle[r,c] = possible[0]
+                        switched = True
+        if (not switched):
+            return
+
+
 def sudoku_solver(puzzle):
     if not(puzzle.shape == (9,9)):
         print('puzzle must be 9x9!')
@@ -60,9 +79,8 @@ def solve_from_file():
 
 def grid_print(arr):
     # prints a 2-D array representing a sudoku
-    shape = arr.shape
-    for r in range(shape[0]):
-        for c in range(shape[1]):
+    for r in range(9):
+        for c in range(9):
             if arr[r][c] == -1:
                 print '_',
             else:
@@ -72,5 +90,6 @@ def grid_print(arr):
 if __name__ == "__main__":
     puzzle = solve_from_file()
     grid_print(puzzle)
+    grid_print(candidate_check(puzzle))
     #solution = sudoku_solver(puzzle)
     #array_print(solution)
