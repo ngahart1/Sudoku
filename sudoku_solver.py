@@ -1,5 +1,41 @@
 import sys
 
+def can_have(arr, r, c):
+    # given the sudoku arr, and the location
+    # (r,c) of the cell in question, return 
+    # a list of all possible values that cell
+    # can hold
+    
+    can_hold = range(1,10)
+
+    # first, check all elements in the column
+    # remove from can_hold if found in column
+    for i in range(9):
+        here = arr[i, c]
+        if here in can_hold:
+            can_hold.remove(here)
+
+    # next, check all elements in the row
+    # remove from can_hold if found in row
+    for j in range(9):
+        here = arr[r, j]
+        if here in can_hold:
+            can_hold.remove(here)
+    
+    # lastly, remove from can_hold all values
+    # present in the same box as cell of interest
+    # box_row is 0 if in top row of boxes, etc
+    box_row = r // 3
+    box_col = c // 3
+    for i in range(3 * box_row, 2 + 3 * box_row):
+        for j in range(3 * box_col, 2 + 3 * box_col):
+            here = arr[i, j]
+            if here in can_hold:
+                can_hold.remove(here)
+    
+    return can_hold
+
+
 def sudoku_solver(puzzle):
     if not(puzzle.shape == (9,9)):
         print('puzzle must be 9x9!')
