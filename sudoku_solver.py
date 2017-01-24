@@ -54,6 +54,72 @@ def candidate_check(puzzle):
         if (not switched):
             return puzzle
 
+def placefinder_sudoku(arr):
+    #check all rows
+    check=1;
+    counter=0;
+    index=-1;
+    
+    for i in range(9):
+        while (check < 10):
+            for j in range(9):
+                #check can have
+                if arr[i][j]==-1:
+                    pos=can_have(arr, i, j)
+                    nums=len(pos)
+                    for c in range(nums):
+                        if pos[c]==check:
+                            counter+=1
+                            index=i
+  
+                          
+            if counter == 1:
+                arr[index][j]==check
+            check+=1
+    check=1; counter=0;index=-1      
+    
+    #check all columns
+    for j in range(9):
+        while (check < 10):
+            for i in range(9):
+                #check can have
+                if arr[i][j]==-1:
+                    pos=can_have(arr, i, j)
+                    nums=len(pos)
+                    for c in range(nums):
+                        if pos[c]==check:
+                            counter+=1
+                            index=i
+  
+                          
+            if counter == 1:
+                arr[index][j]==check
+            check+=1
+    check=1; counter=0;index=-1  
+    
+    
+    #check boxes
+    # box_row is 0 if in top row of boxes, etc
+    r=0
+    c=0
+    while (c<9):
+        while (r<9):
+            for i in range(r, 2 + r):
+                for j in range(c, 2 + c):
+                    if arr[i][j]==-1:
+                        pos=can_have(arr, i, j)
+                        nums=len(pos)
+                        for c in range(nums):
+                            if pos[c]==check:
+                                counter+=1
+                                indexi=i
+                                indexj=j
+            if counter == 1:
+                arr[indexi][indexj]==check
+            check+=1
+            r+=3
+        c+=3
+        
 # returns true if the sudoku puzzle is solved. Otherwise,
 # returns false
 def solved(puzzle):
@@ -71,8 +137,7 @@ def sudoku_solver(puzzle):
         sys.exit()
     while (not solved(puzzle)):
         puzzle = candidate_check(puzzle)
-        ### place finding method
-
+        puzzle = placefinder_sudoku(puzzle)
 
 # Reads the sudoku from the file, creates an
 # array where -1 is coded for unsolved cells
