@@ -53,13 +53,28 @@ def candidate_check(puzzle):
         if (not switched):
             return puzzle
 
+# returns true if the sudoku puzzle is solved. Otherwise,
+# returns false
+def solved(puzzle):
+    for r in range(0,9):
+        for j in range(0,9):
+            if puzzle[r,c] == -1:
+                return false
+    return true
 
+
+# Solves the sudoku!
 def sudoku_solver(puzzle):
     if not(puzzle.shape == (9,9)):
         print('puzzle must be 9x9!')
         sys.exit()
+    while (not solved(puzzle)):
+        puzzle = candidate_check(puzzle)
+        ### place finding method
 
 
+# Reads the sudoku from the file, creates an
+# array where -1 is coded for unsolved cells
 def solve_from_file():
     from numpy import zeros
     puzzle = zeros((9, 9), dtype = int)
@@ -76,8 +91,9 @@ def solve_from_file():
     f.close()
     return puzzle
 
+
+# prints a 2-D array representing a sudoku
 def grid_print(arr):
-    # prints a 2-D array representing a sudoku
     for r in range(9):
         for c in range(9):
             if arr[r][c] == -1:
@@ -87,11 +103,9 @@ def grid_print(arr):
         print ''
 
 if __name__ == "__main__":
-    print 'Puzzle from websudoku.com: '
     puzzle = solve_from_file()
+    print 'Puzzle from websudoku.com: '
     grid_print(puzzle)
     print ''
     print 'Solved puzzle:'
-    grid_print(candidate_check(puzzle))
-    #solution = sudoku_solver(puzzle)
-    #array_print(solution)
+    grid_print(sudoku_solver(puzzle))
