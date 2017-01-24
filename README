@@ -1,0 +1,5 @@
+A program to solve basic sudoku puzzles.
+Puzzles are taken from websudoku.com,
+and the method used is the "Two Simple-
+Minded Approaches" method as defined on:
+math.cornell.edu/~mec/Summer2009/meerkamp/Site/Solving_any_Sudoki_I.html
