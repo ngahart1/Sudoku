@@ -48,11 +48,10 @@ def candidate_check(puzzle):
                 if puzzle[r,c] == -1:
                     possible = can_have(puzzle, r, c)
                     if len(possible) == 1:
-                        print 'puzzle[%d,%d] is %d' % (r,c,possible[0])
                         puzzle[r,c] = possible[0]
                         switched = True
         if (not switched):
-            return
+            return puzzle
 
 
 def sudoku_solver(puzzle):
@@ -88,8 +87,11 @@ def grid_print(arr):
         print ''
 
 if __name__ == "__main__":
+    print 'Puzzle from websudoku.com: '
     puzzle = solve_from_file()
     grid_print(puzzle)
+    print ''
+    print 'Solved puzzle:'
     grid_print(candidate_check(puzzle))
     #solution = sudoku_solver(puzzle)
     #array_print(solution)
