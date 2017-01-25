@@ -73,9 +73,7 @@ def placefinder_sudoku(arr):
                             index=j
                           
             if counter == 1:
-                #print(j)
                 arr[i][index]=check
-                print(arr[i][index])
             check+=1
             counter = 0
             index = -1
@@ -102,8 +100,6 @@ def placefinder_sudoku(arr):
             index = -1
         check=1
     
-    grid_print(arr)
-    time.sleep(2)
 
 
     #check boxes
@@ -151,11 +147,10 @@ def sudoku_solver(puzzle):
         puzzle = candidate_check(puzzle)
         print 'Candidate check: '
         grid_print(puzzle)
-        time.sleep(2)
         puzzle = placefinder_sudoku(puzzle)
         print 'Placefinder:'
         grid_print(puzzle)
-        time.sleep(2)
+    return puzzle
 
 # Reads the sudoku from the file, creates an
 # array where -1 is coded for unsolved cells
