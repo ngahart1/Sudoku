@@ -1,4 +1,5 @@
 import sys
+import time
 
 def can_have(arr, r, c):
     # given the sudoku arr, and the location
@@ -27,8 +28,8 @@ def can_have(arr, r, c):
     # box_row is 0 if in top row of boxes, etc
     box_row = r // 3
     box_col = c // 3
-    for i in range(3 * box_row, 2 + 3 * box_row):
-        for j in range(3 * box_col, 2 + 3 * box_col):
+    for i in range(3 * box_row, 3 + 3 * box_row):
+        for j in range(3 * box_col, 3 + 3 * box_col):
             here = arr[i, j]
             if here in can_hold:
                 can_hold.remove(here)
@@ -49,7 +50,6 @@ def candidate_check(puzzle):
                     possible = can_have(puzzle, r, c)
                     if len(possible) == 1:
                         puzzle[r,c] = possible[0]
-                        grid_print(puzzle)
                         switched = True
         if (not switched):
             return puzzle
@@ -70,13 +70,16 @@ def placefinder_sudoku(arr):
                     for c in range(nums):
                         if pos[c]==check:
                             counter+=1
-                            index=i
-  
+                            index=j
                           
             if counter == 1:
-                arr[index][j]==check
+                #print(j)
+                arr[i][index]=check
+                print(arr[i][index])
             check+=1
-    check=1; counter=0;index=-1      
+            counter = 0
+            index = -1
+        check=1
     
     #check all columns
     for j in range(9):
@@ -93,32 +96,41 @@ def placefinder_sudoku(arr):
   
                           
             if counter == 1:
-                arr[index][j]==check
+                arr[index][j]=check
             check+=1
-    check=1; counter=0;index=-1  
+            counter = 0
+            index = -1
+        check=1
     
-    
+    grid_print(arr)
+    time.sleep(2)
+
+
     #check boxes
     # box_row is 0 if in top row of boxes, etc
     r=0
     c=0
     while (c<9):
         while (r<9):
-            for i in range(r, 2 + r):
-                for j in range(c, 2 + c):
-                    if arr[i][j]==-1:
-                        pos=can_have(arr, i, j)
-                        nums=len(pos)
-                        for c in range(nums):
-                            if pos[c]==check:
-                                counter+=1
-                                indexi=i
-                                indexj=j
-            if counter == 1:
-                arr[indexi][indexj]==check
-            check+=1
+            while (check < 10):
+                for i in range(r, 2 + r):
+                    for j in range(c, 2 + c):
+                        if arr[i][j]==-1:
+                            pos=can_have(arr, i, j)
+                            nums=len(pos)
+                            for c in range(nums):
+                                if pos[c]==check:
+                                    counter+=1
+                                    indexi=i
+                                    indexj=j
+                if counter == 1:
+                    arr[indexi][indexj]=check
+                check+=1
+                counter=0;indexi=-1;indexj=-1;
             r+=3
         c+=3
+
+    return arr
         
 # returns true if the sudoku puzzle is solved. Otherwise,
 # returns false
@@ -137,14 +149,20 @@ def sudoku_solver(puzzle):
         sys.exit()
     while (not solved(puzzle)):
         puzzle = candidate_check(puzzle)
+        print 'Candidate check: '
+        grid_print(puzzle)
+        time.sleep(2)
         puzzle = placefinder_sudoku(puzzle)
+        print 'Placefinder:'
+        grid_print(puzzle)
+        time.sleep(2)
 
 # Reads the sudoku from the file, creates an
 # array where -1 is coded for unsolved cells
 def solve_from_file():
     from numpy import zeros
     puzzle = zeros((9, 9), dtype = int)
-    f = open('puzzle.txt', 'r')
+    f = open('puzzle2.txt', 'r')
     counter = 0
     for line in f:
         spl = line.split()
